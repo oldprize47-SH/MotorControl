@@ -21,4 +21,6 @@ Gp2(s) = (1.137e4 s + 5.346e4) / (s^2 + 27.32 s + 84.84)
 
 These are reproduced script outputs. The fitting routine reported possible local minima, so they should not be treated as independently validated estimates. Successful replay also does not establish closed-loop hardware performance. No motor was operated during the replay.
 
-This repository contains the project description and response plot. The full source, data archive and MATLAB toolbox environment have not been packaged here, so it does not provide a standalone reproduction of the experiment.
+The repository now includes [chan.m](Gimbal_board/chan.m), [Plant.slx](Simulink/Plant.slx) and the twelve recorded runs from 0.1 to 1.2 Hz. This package was replayed successfully in MATLAB R2024b on Windows on 28 September 2026. Run `chan` with `Gimbal_board` as the current folder. The script uses Simulink, Control System Toolbox, Signal Processing Toolbox, Optimization Toolbox and Curve Fitting Toolbox; its original Windows paths are retained.
+
+To regenerate the response plot, install NumPy and Matplotlib and run `python plot_recorded_response.py` from the repository root. It writes `portfolio/recorded-response.png` and checks the recorded samples for finite values and increasing time. The acquisition software and hardware setup are not included.
