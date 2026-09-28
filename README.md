@@ -1,14 +1,18 @@
 # Motor System Identification
 
-**Control engineering case study · recorded-data replay · two-person coursework**
+**Measured a motor’s response, fitted candidate models, and compared their simulated behaviour.**
 
-![Archived motor input and response](assets/recorded-response.png)
+| Experiment | Analysis | Evidence |
+|---|---|---|
+| Sinusoidal motor input at different frequencies | First- and second-order model comparison | 4,000-sample recorded response; MATLAB/Simulink replay |
 
-A digital-control project connecting sinusoidal motor experiments, frequency-response
-analysis and model comparison. The work ran for approximately eight weeks and used
-C/C++ acquisition code with MATLAB/Simulink analysis.
+![Measured input voltage and archived gyro response](assets/recorded-response.png)
 
-[Portfolio home](https://github.com/oldprize47-SH)
+**My role:** sinusoidal experiments, response analysis and model-based controller study in a two-person project.
+
+**Confirmed result:** the existing MATLAB analysis and two simulations ran on 28 Sep 2026. This is recorded-data replay, not a new hardware test or independently validated model.
+
+[Engineering workflow](#engineering-workflow) · [Reproduced outputs](#what-was-reproduced) · [Portfolio](https://github.com/oldprize47-SH)
 
 ## My contribution and the team boundary
 
