@@ -23,7 +23,7 @@ AI로 생성한 개념도입니다. 장치의 외형, 인터페이스 배치, �
 
 ![모터 측정과 시스템 식별](docs/flowcharts/motor.png)
 
-프로젝트 문서와 코드를 바탕으로 재구성한 개요입니다. 결과와 검증 범위의 한계는 아래에 설명합니다. [SVG](docs/flowcharts/motor.svg)
+프로젝트 문서와 코드를 바탕으로 재구성한 개요입니다. 아래 설명에서 결과와 함께 확인된 범위와 검증의 한계를 살펴볼 수 있습니다. [SVG](docs/flowcharts/motor.svg)
 
 ### 프로젝트 구성과 팀 역할
 
@@ -41,7 +41,7 @@ AI로 생성한 개념도입니다. 장치의 외형, 인터페이스 배치, �
 
 확인하려던 것은 변화하는 명령에 모터가 얼마나 크게, 얼마나 빠르게 반응하는가였습니다. 일련의 주파수에서 정현파 입력을 인가하고 출력을 기록했습니다. 느린 입력과 빠른 입력에서는 출력 진폭과 지연이 같지 않으며, 이 관계가 주파수 응답 모델의 바탕이 됩니다.
 
-포함된 데이터셋에는 0.1~1.2 Hz 범위의 실험 12회가 담겨 있습니다. 각 파일은 4,000행이며, 시간, 명령 전압, 저장된 자이로 기반 응답의 세 열로 구성됩니다. 전압 열은 데이터 수집 프로그램의 선형화 단계 이전 명령이므로, 최종 DAQ 출력을 직접 기록한 값으로 해석해서는 안 됩니다. 원래의 데이터 수집 및 보정 환경은 이 파일들만으로 재현되지 않습니다.
+포함된 데이터셋에는 0.1~1.2 Hz 범위의 실험 12회가 담겨 있습니다. 각 파일은 4,000행이며, 시간, 명령 전압, 저장된 자이로 기반 응답의 세 열로 구성됩니다. 전압 열을 읽을 때는 데이터 수집 프로그램의 선형화 단계 이전 명령이라는 점이 중요합니다. 최종 DAQ 출력을 직접 기록한 값은 아니므로, 이 차이를 바탕으로 응답을 해석해야 합니다. 원래의 데이터 수집 및 보정 환경은 이 파일들만으로 재현되지 않습니다.
 
 ### 기록된 응답
 
@@ -62,22 +62,22 @@ Gp1(s) = 7656 / (s + 13.12)
 Gp2(s) = (1.137e4 s + 5.346e4) / (s^2 + 27.32 s + 84.84)
 ```
 
-이는 스크립트를 재실행해 얻은 출력입니다. 피팅 루틴에서 국소 최솟값에 도달했을 가능성을 보고했으므로, 별도로 검증된 추정값으로 취급해서는 안 됩니다. 재실행에 성공했다는 사실이 폐루프 하드웨어 성능까지 입증하지는 않습니다. 재실행 중 모터를 구동하지 않았습니다.
+이 값들은 보존된 스크립트를 재실행했을 때 얻은 출력을 보여 줍니다. 피팅 루틴에서 국소 최솟값에 도달했을 가능성을 보고했으므로, 별도로 검증된 추정값으로 해석할 수는 없습니다. 재실행 중 모터를 구동하지 않았기 때문에, 이 결과가 확인해 주는 범위에 폐루프 하드웨어 성능은 포함되지 않습니다.
 
 ### 분석 재실행
 
-현재 저장소에는 [chan.m](Gimbal_board/chan.m), [Plant.slx](Simulink/Plant.slx), 0.1~1.2 Hz 범위에서 기록한 실험 12회가 포함되어 있습니다. 이 패키지는 2026년 9월 28일 Windows의 MATLAB R2024b에서 재실행에 성공했습니다. 저장소 루트에서 MATLAB의 다음 명령을 사용하세요.
+현재 저장소에는 [chan.m](Gimbal_board/chan.m), [Plant.slx](Simulink/Plant.slx), 0.1~1.2 Hz 범위에서 기록한 실험 12회가 포함되어 있습니다. 이 패키지는 2026년 9월 28일 Windows의 MATLAB R2024b에서 재실행에 성공했습니다. 같은 분석을 살펴보려면 저장소 루트에서 MATLAB의 다음 명령을 실행하면 됩니다.
 
 ```matlab
 cd Gimbal_board
 chan
 ```
 
-스크립트는 작업 공간을 지우고 분석 그래프 창을 엽니다. 스크립트가 해당 배치를 전제로 하므로 인접한 `Simulink` 폴더와 측정 파일 이름을 그대로 유지해야 합니다. Simulink, Control System Toolbox, Signal Processing Toolbox, Optimization Toolbox, Curve Fitting Toolbox를 사용하며, 원래 Windows 경로를 유지하고 있습니다.
+스크립트는 작업 공간을 지우고 분석 그래프 창을 엽니다. 스크립트가 인접한 `Simulink` 폴더와 원래 측정 파일 이름을 사용하므로, 재실행할 때도 이 배치를 그대로 유지해야 합니다. Simulink, Control System Toolbox, Signal Processing Toolbox, Optimization Toolbox, Curve Fitting Toolbox를 사용하며, 원래 Windows 경로를 유지하고 있습니다.
 
-응답 그래프를 다시 생성하려면 NumPy와 Matplotlib를 설치하고 저장소 루트에서 `python plot_recorded_response.py`를 실행하세요. 이 명령은 `portfolio/recorded-response.png`를 생성하며, 기록된 샘플의 값이 유한한지와 시간이 증가하는지 확인합니다. 데이터 수집 소프트웨어와 하드웨어 구성은 포함되어 있지 않습니다.
+응답 그래프를 다시 생성하려면 NumPy와 Matplotlib를 설치하고 저장소 루트에서 `python plot_recorded_response.py`를 실행하면 됩니다. 이 명령은 `portfolio/recorded-response.png`를 생성하며, 기록된 샘플의 값이 유한한지와 시간이 증가하는지 확인합니다. 데이터 수집 소프트웨어와 하드웨어 구성은 포함되어 있지 않습니다.
 
-빠르게 살펴보려면 기록된 응답 그래프에서 시작한 뒤 `chan.m`의 피팅 부분을 읽으면 됩니다. 스크립트 재현은 보존된 데이터와 분석이 함께 실행됨을 보여 줍니다. 다른 모터에 가장 잘 맞는 모델을 입증하거나, 센서 스케일을 별도로 검증하거나, 원래의 폐루프 목표 각도 실험을 반복한 것은 아닙니다.
+전체 흐름을 먼저 파악하려면 기록된 응답 그래프를 보고, 이어서 `chan.m`의 피팅 부분을 읽는 순서가 도움이 됩니다. 스크립트 재현은 보존된 데이터와 분석이 함께 실행됨을 보여 줍니다. 다른 모터에 가장 잘 맞는 모델을 입증하거나, 센서 스케일을 별도로 검증하거나, 원래의 폐루프 목표 각도 실험을 반복한 것은 아닙니다.
 
 ---
 
@@ -104,7 +104,7 @@ This measurement-and-model workflow can support laboratory characterisation of a
 
 ![Motor measurement and identification](docs/flowcharts/motor.png)
 
-Overview reconstructed from the documented project and code. Results and verification limits are described below. [SVG](docs/flowcharts/motor.svg)
+This overview is reconstructed from the project documentation and code. The sections below explain the results, what was checked and the limits of that verification. [SVG](docs/flowcharts/motor.svg)
 
 ### Project configuration and team
 
@@ -122,7 +122,7 @@ The repository currently preserves the measurement data and identification repla
 
 The question was how strongly, and how quickly, the motor responded to a changing command. We applied sinusoidal inputs at a sequence of frequencies and recorded the output. A slow input and a faster input do not produce the same output amplitude or delay; that relationship is the basis of the frequency-response model.
 
-The included dataset contains twelve runs from 0.1 to 1.2 Hz. Each file has 4,000 rows with three columns: time, command voltage and the stored gyro-derived response. The voltage column is the command before the acquisition program's linearisation step, so it should not be read as a direct recording of the final DAQ output. The original acquisition and calibration setup is not reproduced by these files.
+The included dataset contains twelve runs from 0.1 to 1.2 Hz. Each file has 4,000 rows with three columns: time, command voltage and the stored gyro-derived response. To interpret the voltage column, keep in mind that it records the command before the acquisition program's linearisation step. It is not a direct recording of the final DAQ output. The original acquisition and calibration setup is not reproduced by these files.
 
 ### Recorded response
 
@@ -143,20 +143,20 @@ Gp1(s) = 7656 / (s + 13.12)
 Gp2(s) = (1.137e4 s + 5.346e4) / (s^2 + 27.32 s + 84.84)
 ```
 
-These are reproduced script outputs. The fitting routine reported possible local minima, so they should not be treated as independently validated estimates. Successful replay also does not establish closed-loop hardware performance. No motor was operated during the replay.
+These values show the output of the preserved script when replayed. The fitting routine reported possible local minima, so the estimates cannot be considered independently validated. No motor was operated during the replay, which also leaves closed-loop hardware performance unverified.
 
 ### Replaying the analysis
 
-The repository now includes [chan.m](Gimbal_board/chan.m), [Plant.slx](Simulink/Plant.slx) and the twelve recorded runs from 0.1 to 1.2 Hz. This package was replayed successfully in MATLAB R2024b on Windows on 28 September 2026. From the repository root, use the following commands in MATLAB:
+The repository now includes [chan.m](Gimbal_board/chan.m), [Plant.slx](Simulink/Plant.slx) and the twelve recorded runs from 0.1 to 1.2 Hz. This package was replayed successfully in MATLAB R2024b on Windows on 28 September 2026. To explore the same analysis, run the following commands in MATLAB from the repository root:
 
 ```matlab
 cd Gimbal_board
 chan
 ```
 
-The script clears the workspace and opens its analysis figures. Keep the neighbouring `Simulink` folder and the measurement filenames intact because the script expects that layout. The script uses Simulink, Control System Toolbox, Signal Processing Toolbox, Optimization Toolbox and Curve Fitting Toolbox; its original Windows paths are retained.
+The script clears the workspace and opens its analysis figures. The script expects the neighbouring `Simulink` folder and the original measurement filenames, so keeping that layout intact is necessary for replay. The script uses Simulink, Control System Toolbox, Signal Processing Toolbox, Optimization Toolbox and Curve Fitting Toolbox; its original Windows paths are retained.
 
 To regenerate the response plot, install NumPy and Matplotlib and run `python plot_recorded_response.py` from the repository root. It writes `portfolio/recorded-response.png` and checks the recorded samples for finite values and increasing time. The acquisition software and hardware setup are not included.
 
 
-For a quick review, begin with the recorded-response plot, then read the fitting section in `chan.m`. Reproducing the script demonstrates that the preserved data and analysis run together. It does not establish a best-fit model for another motor, independently validate the sensor scale, or repeat the original closed-loop target-angle experiment.
+For an introduction to the analysis, the recorded-response plot is a useful starting point. You can then follow the fitting section in `chan.m` to see how the data is used. Reproducing the script demonstrates that the preserved data and analysis run together. It does not establish a best-fit model for another motor, independently validate the sensor scale, or repeat the original closed-loop target-angle experiment.
