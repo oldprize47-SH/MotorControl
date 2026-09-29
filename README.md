@@ -1,8 +1,36 @@
 # Motor System Identification
 
-This was a two-person digital-control project lasting about eight weeks. We applied sinusoidal inputs to a motor at different frequencies, measured its response and compared first- and second-order models using MATLAB and Simulink.
+This digital-control project measured a motor's response to sinusoidal inputs and used the recorded data to compare first- and second-order models in MATLAB and Simulink. The project lasted about eight weeks and connected measurement, model identification and controller study.
 
-I worked on the sinusoidal experiments, response analysis and using the fitted model for controller design and target-angle checks. The final measurements used gyroscope-derived angular velocity. Earlier angle-sensor and FFT experiments were a separate stage of the project.
+## Project goal
+
+Measure how a motor responds to commands and identify models that can support controller design.
+
+![Project goal: motor-system-identification](docs/goals/project-focus-v1.png)
+
+AI-generated concept illustration. Device appearance, interface layout and example graphics are illustrative, not project photographs or measured results.
+
+## Where it could be used
+
+This measurement-and-model workflow can support laboratory characterisation of a motor-driven mechanism before controller tuning. Comparing an identified model with measured response can help decide whether the model captures the behaviour needed for a control experiment. Applying it to another actuator would require new measurements and calibration; the saved experiment does not establish performance for a different drive.
+
+## At a glance
+
+![Motor measurement and identification](docs/flowcharts/motor.png)
+
+Overview reconstructed from the documented project and code. Results and verification limits are described below. [SVG](docs/flowcharts/motor.svg)
+
+## Project configuration and team
+
+The project covers measurement and calibration, sinusoidal response experiments, model identification and controller design. Sangheon Park first obtained working results for the measurement setup, sensor/input calibration and response-data collection. 김찬중 first obtained working results for model identification, model comparisons and controller design with target-angle response analysis.
+
+Both members also worked through the complete process from setup to controller study. This division records who first brought each stage to a working result, rather than exclusive ownership of those stages. The files in this repository focus on the recorded data and identification analysis; the wider project also included controller-design experiments.
+
+## From measurement to controller study
+
+The work began with the DAQ setup and sensor/input calibration. Sinusoidal commands were then applied at several frequencies, with each run saved for analysis. MATLAB fits the recorded response at each frequency to estimate its amplitude and phase, combines those measurements into a frequency response, and identifies candidate models. Simulink comparisons show how those models reproduce the measured response. The wider project continued into controller design and target-angle response comparisons.
+
+The repository currently preserves the measurement data and identification replay. The later controller study belongs to the project history, but its complete experiment setup is not supplied by this package.
 
 ## What was measured
 
@@ -46,3 +74,4 @@ To regenerate the response plot, install NumPy and Matplotlib and run `python pl
 
 
 For a quick review, begin with the recorded-response plot, then read the fitting section in `chan.m`. Reproducing the script demonstrates that the preserved data and analysis run together. It does not establish a best-fit model for another motor, independently validate the sensor scale, or repeat the original closed-loop target-angle experiment.
+
