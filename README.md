@@ -10,6 +10,8 @@
 
 ## 한국어
 
+[코드 읽는 순서](#코드-따라-읽기)
+
 
 
 이 디지털 제어 프로젝트에서는 정현파 입력에 대한 모터의 응답을 측정하고, 기록한 데이터로 MATLAB과 Simulink에서 1차 및 2차 모델을 비교했습니다. 약 8주 동안 측정, 모델 식별, 제어기 연구를 연결하여 수행한 프로젝트입니다.
@@ -24,11 +26,11 @@
 
 
 
-![프로젝트 목표: motor-system-identification](docs/goals/project-focus-v1.png)
+![프로젝트 목표: motor-system-identification](docs/goals/goal.png)
 
 
 
-AI로 생성한 개념도입니다. 장치의 외형, 인터페이스 배치, 예시 그래픽은 설명을 위한 표현이며, 실제 프로젝트 사진이나 측정 결과가 아닙니다.
+<sub>AI 생성 개념도</sub>
 
 
 
@@ -48,7 +50,7 @@ AI로 생성한 개념도입니다. 장치의 외형, 인터페이스 배치, �
 
 
 
-프로젝트 문서와 코드를 바탕으로 재구성한 개요입니다. 아래 설명에서 결과와 함께 확인된 범위와 검증의 한계를 살펴볼 수 있습니다. [SVG](docs/flowcharts/motor.svg)
+<sub>[SVG](docs/flowcharts/motor.svg)</sub>
 
 
 
@@ -92,7 +94,7 @@ AI로 생성한 개념도입니다. 장치의 외형, 인터페이스 배치, �
 
 
 
-![보관된 모터 명령 전압과 자이로 응답](assets/recorded-response.png)
+![보관된 모터 명령 전압과 자이로 응답](assets/response.png)
 
 
 
@@ -130,6 +132,17 @@ Gp2(s) = (1.137e4 s + 5.346e4) / (s^2 + 27.32 s + 84.84)
 
 
 
+### 코드 따라 읽기
+
+아래 순서는 파일의 역할과 연결을 이해하기 위한 안내입니다. 독립 과제나 보드별 프로그램은 한꺼번에 실행하지 않고 해당 항목의 실행 안내를 따릅니다.
+
+| 순서 | 파일 | 역할과 다음 단계 |
+|---|---|---|
+| 1 | [Gimbal_board/gimbal_Gyro_modeling](Gimbal_board/gimbal_Gyro_modeling) | 기록 데이터의 시간·명령 전압·응답 세 열부터 확인합니다. 새로운 측정 없이 분석을 시작할 수 있습니다. |
+| 2 | [plot.py](plot.py) | 0.30 Hz 기록을 읽어 유한값·시간 순서를 확인하고 응답 그림을 저장합니다. 모델 식별 전에 입력 데이터를 살펴보는 단계입니다. |
+| 3 | [Gimbal_board/chan.m](Gimbal_board/chan.m) | 주파수별 정현파 피팅에서 진폭·위상을 얻고 모델 후보를 비교하는 순서를 따라갑니다. |
+| 4 | [Simulink/Plant.slx](Simulink/Plant.slx) | chan.m이 호출하는 시뮬레이션 모델입니다. 같은 작업 공간과 데이터 경로를 유지해 기록 응답과 비교합니다. |
+
 ### 분석 재실행
 
 
@@ -152,7 +165,7 @@ chan
 
 
 
-응답 그래프를 다시 생성하려면 NumPy와 Matplotlib를 설치하고 저장소 루트에서 `python plot_recorded_response.py`를 실행하면 됩니다. 이 명령은 `portfolio/recorded-response.png`를 생성하며, 기록된 샘플의 값이 유한한지와 시간이 증가하는지 확인합니다. 데이터 수집 소프트웨어와 하드웨어 구성은 포함되어 있지 않습니다.
+응답 그래프를 다시 생성하려면 NumPy와 Matplotlib를 설치하고 저장소 루트에서 `python plot.py`를 실행하면 됩니다. 이 명령은 `portfolio/response.png`를 생성하며, 기록된 샘플의 값이 유한한지와 시간이 증가하는지 확인합니다. 데이터 수집 소프트웨어와 하드웨어 구성은 포함되어 있지 않습니다.
 
 
 
@@ -167,6 +180,8 @@ chan
 <a id="english"></a>
 
 ## English
+
+[Code walkthrough](#code-walkthrough)
 
 
 
@@ -186,11 +201,11 @@ Measure how a motor responds to commands and identify models that can support co
 
 
 
-![Project goal: motor-system-identification](docs/goals/project-focus-v1.png)
+![Project goal: motor-system-identification](docs/goals/goal.png)
 
 
 
-AI-generated concept illustration. Device appearance, interface layout and example graphics are illustrative, not project photographs or measured results.
+<sub>AI-generated concept illustration</sub>
 
 
 
@@ -210,7 +225,7 @@ This measurement-and-model workflow can support laboratory characterisation of a
 
 
 
-This overview is reconstructed from the project documentation and code. The sections below explain the results, what was checked and the limits of that verification. [SVG](docs/flowcharts/motor.svg)
+<sub>[SVG](docs/flowcharts/motor.svg)</sub>
 
 
 
@@ -254,7 +269,7 @@ The included dataset contains twelve runs from 0.1 to 1.2 Hz. Each file has 4,00
 
 
 
-![Archived motor command voltage and gyro response](assets/recorded-response.png)
+![Archived motor command voltage and gyro response](assets/response.png)
 
 
 
@@ -314,7 +329,7 @@ The script clears the workspace and opens its analysis figures. The script expec
 
 
 
-To regenerate the response plot, install NumPy and Matplotlib and run `python plot_recorded_response.py` from the repository root. It writes `portfolio/recorded-response.png` and checks the recorded samples for finite values and increasing time. The acquisition software and hardware setup are not included.
+To regenerate the response plot, install NumPy and Matplotlib and run `python plot.py` from the repository root. It writes `portfolio/response.png` and checks the recorded samples for finite values and increasing time. The acquisition software and hardware setup are not included.
 
 
 
@@ -322,3 +337,13 @@ To regenerate the response plot, install NumPy and Matplotlib and run `python pl
 
 For an introduction to the analysis, the recorded-response plot is a useful starting point. You can then follow the fitting section in `chan.m` to see how the data is used. Reproducing the script demonstrates that the preserved data and analysis run together. It does not establish a best-fit model for another motor, independently validate the sensor scale, or repeat the original closed-loop target-angle experiment.
 
+### Code walkthrough
+
+Use this order to understand each file and its connections. Independent exercises and board targets are not one executable; follow the relevant run instructions below.
+
+| Step | File | Role and next step |
+|---|---|---|
+| 1 | [Gimbal_board/gimbal_Gyro_modeling](Gimbal_board/gimbal_Gyro_modeling) | Start with the three recorded columns: time, command voltage and response; no new acquisition is required. |
+| 2 | [plot.py](plot.py) | Read the 0.30 Hz record, check finite values and increasing time, and save a response plot before model identification. |
+| 3 | [Gimbal_board/chan.m](Gimbal_board/chan.m) | Follow sinusoidal fits through amplitude and phase estimation to candidate-model comparison. |
+| 4 | [Simulink/Plant.slx](Simulink/Plant.slx) | This model is called by chan.m; retain its workspace and data layout when comparing simulated and recorded responses. |

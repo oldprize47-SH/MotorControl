@@ -26,7 +26,7 @@ def main():
         for ax in axes:
             ax.grid(alpha=0.25)
         fig.suptitle("Archived motor experiment | 0.30 Hz sinusoidal input\nRecorded data replay; sensor calibration not revalidated")
-        output = root / "portfolio/recorded-response.png"
+        output = root / "portfolio/response.png"
         output.parent.mkdir(exist_ok=True)
         fig.savefig(output, dpi=160)
         plt.close(fig)
